@@ -35,6 +35,9 @@ int main() {
 			jobs[i].setProfit(tempProfit);
 			++numIntervalsProcessed;
 		}
+		else {
+			--i;
+		}
 	}
 
 	// Sort based on finish times
