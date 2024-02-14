@@ -6,12 +6,13 @@
 using namespace std;
 
 const int INDEX_WIDTH = 15;
-const int JOB_DETAILS_WIDTH = 8;
+const int JOB_DETAILS_WIDTH = 10;
 
 bool isValidWISParameters(int start, int finish, int profit);
 bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob);
 void printWISContainer(const vector<WIS> container);
 void printFormattedInputIntervals(const vector<WIS> container);
+void purgeInputErrors(string errorMessage);
 
 int main() {
 	// You are given a list of jobs to complete and you only have one machine.
@@ -23,26 +24,38 @@ int main() {
 
 	int intervals;
 	cout << "Enter number of Intervals: ";
-	cin >> intervals;
+
+	// Handle input errors
+	while (!(cin >> intervals) || intervals <= 0) {
+		purgeInputErrors("\nError: Invalid Input\nPlease enter a positive integer for the number of intervals: ");
+	}
 
 	// Create a container to store WIS 
 	vector<WIS> jobs;
 
 	// Populate WIS container
-	cout << "Enter Start time, Finish time, and Weight separated by a space:\nSi Fi Wi\n";
+	cout << "\nEnter Start time, Finish time, and Weight separated by a space:\nSi Fi Wi\n";
 
 	int start, finish, profit;
+	bool invalidEntryDetected = false;
 	for (int i = 0; i < intervals; ++i) {
-		cin >> start >> finish >> profit;
-		
-		// Only process valid data
-		if (isValidWISParameters(start, finish, profit)) {
-			WIS record(start, finish, profit);
-			jobs.push_back(record);
+		// First check for valid input type
+		if (!(cin >> start) || !(cin >> finish) || !(cin >> profit)) {
+			purgeInputErrors("");
+			invalidEntryDetected = true;
+			//"\nError: Invalid Entry\nCurrent interval has been excluded from data set\n"
+		}
+		// Then check for valid WIS record
+		else if (isValidWISParameters(start, finish, profit)) {
+			jobs.emplace_back(start, finish, profit);
 		}
 	}
 
-	// Sort based on finish times
+	if (invalidEntryDetected) {
+		cout << "\nPlease note that one or more entries were invalid and excluded from the data set\n";
+	}
+
+	// Sort by finish times
 	sort(jobs.begin(), jobs.end(), compareByFinishTime);
 
 	// Display the results
@@ -61,13 +74,17 @@ bool isValidWISParameters(int start, int finish, int profit) {
 		if (start < finish) {
 			isValid = true;
 		}
+		/*
 		else {
-			cout << "\nERROR: Invalid Interval. Start Time Must Be Less Than Finish Time\nInvalid Entry Has Been Discarded\n";
+			cout << "\nError: Invalid Interval\nStart Time Must Be Less Than Finish Time *Entry Discarded*\n";
 		}
+		*/
 	}
+	/*
 	else {
-		cout << "\nERROR: Start Time, Finish Time, AND Weight Must Be Values Greater Than 0\nInvalid Entry Has Been Discarded\n";
+		cout << "\nError: Start Time, Finish Time, AND Weight Must Be Values Greater Than 0 *Entry Discarded*\n";
 	}
+	*/
 
 	return isValid;
 }
@@ -102,4 +119,11 @@ void printFormattedInputIntervals(const vector<WIS> container) {
 			setw(JOB_DETAILS_WIDTH) << container[i].getFinishTime() <<
 			setw(JOB_DETAILS_WIDTH) << container[i].getProfit() << endl;
 	}
+}
+
+// Resets cin object to a useable state after an input error
+void purgeInputErrors(string errorMessage) {
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cout << errorMessage;
 }
