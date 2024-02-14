@@ -5,15 +5,14 @@ class WIS {
 private:
 	int startTime;
 	int finishTime;
-	int weight;
+	int profit;
 
 public:
-	WIS();
-	WIS(int start, int finish, int w);
+	WIS() : startTime(0), finishTime(0), profit(0) {}
 	
 	void setStartTime(int start) { startTime = start; }
 	void setFinishTime(int finish) { finishTime = finish; }
-	void setWeight(int w) { weight = w; }
+	void setProfit(int weight) { profit = weight; }
 };
 
 #endif
