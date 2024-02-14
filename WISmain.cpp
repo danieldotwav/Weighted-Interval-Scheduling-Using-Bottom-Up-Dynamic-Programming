@@ -4,6 +4,7 @@ using namespace std;
 
 bool isValidWISParameters(int start, int finish, int profit);
 void sortWISContainer(WIS* container, int intervals);
+void printWISContainer(WIS* container, int intervals);
 
 int main() {
 	// You are given a list of jobs to complete and you only have one machine.
@@ -38,6 +39,7 @@ int main() {
 
 	// Sort based on finish times
 	sortWISContainer(jobs, numIntervalsProcessed);
+	printWISContainer(jobs, numIntervalsProcessed);
 
 	// Free up dynamically allocated memory
 	delete[] jobs;
