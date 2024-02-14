@@ -1,10 +1,12 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include "WISheader.h";
 using namespace std;
 
 bool isValidWISParameters(int start, int finish, int profit);
-void sortWISContainer(WIS* container, int intervals);
-void printWISContainer(WIS* container, int intervals);
+bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob);
+void printWISContainer(vector<WIS> container);
 
 int main() {
 	// You are given a list of jobs to complete and you only have one machine.
@@ -18,34 +20,28 @@ int main() {
 	cout << "Enter number of Intervals: ";
 	cin >> intervals;
 
-	// Create a container to store user intervals
-	WIS* jobs = new WIS[intervals];
+	// Create a container to store WIS 
+	vector<WIS> jobs;
 
 	// Populate WIS objects "intervals" number of times
 	cout << "Enter Start time, Finish time, and Weight separated by a space:\nSi Fi Wi\n";
 
-	int tempStart, tempFinish, tempProfit, numIntervalsProcessed = 0;
+	int start, finish, profit;
 	for (int i = 0; i < intervals; ++i) {
-		cin >> tempStart >> tempFinish >> tempProfit;
+		cin >> start >> finish >> profit;
 		
-		// Only populate array with valid data
-		if (isValidWISParameters(tempStart, tempFinish, tempProfit)) {
-			jobs[i].setStartTime(tempStart);
-			jobs[i].setFinishTime(tempFinish);
-			jobs[i].setProfit(tempProfit);
-			++numIntervalsProcessed;
-		}
-		else {
-			--i;
+		// Only process valid data
+		if (isValidWISParameters(start, finish, profit)) {
+			WIS record(start, finish, profit);
+			jobs.push_back(record);
 		}
 	}
 
 	// Sort based on finish times
-	sortWISContainer(jobs, numIntervalsProcessed);
-	printWISContainer(jobs, numIntervalsProcessed);
+	sort(jobs.begin(), jobs.end(), compareByFinishTime);
 
-	// Free up dynamically allocated memory
-	delete[] jobs;
+	// Display the results
+	printWISContainer(jobs);
 
 	return 0;
 }
@@ -69,21 +65,12 @@ bool isValidWISParameters(int start, int finish, int profit) {
 	return isValid;
 }
 
-void sortWISContainer(WIS* container, int intervals) {
-	for (int i = 0; i < intervals - 1; ++i) {
-		for (int j = 0; j < intervals - i - 1; ++j) {
-			if (container[j].getFinishTime() > container[j + 1].getFinishTime()) {
-				// Swap the elements
-				WIS temp = container[j];
-				container[j] = container[j + 1];
-				container[j + 1] = temp;
-			}
-		}
-	}
+bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob) {
+	return firstJob.getFinishTime() < secondJob.getFinishTime();
 }
 
-void printWISContainer(WIS* container, int intervals) {
-	for (int i = 0; i < intervals; ++i) {
-		container[i].printFormattedInterval();
+void printWISContainer(vector<WIS> container) {
+	for (WIS element : container) {
+		element.printFormattedInterval();
 	}
 }

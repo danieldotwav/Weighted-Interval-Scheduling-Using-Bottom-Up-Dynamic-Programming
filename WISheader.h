@@ -9,13 +9,15 @@ private:
 
 public:
 	WIS() : startTime(0), finishTime(0), profit(0) {}
+	WIS(int start, int finish, int weight) : startTime(start), finishTime(finish), profit(weight) {}
 	
 	void setStartTime(int start) { startTime = start; }
 	void setFinishTime(int finish) { finishTime = finish; }
 	void setProfit(int weight) { profit = weight; }
-	int getStartTime() { return startTime; }
-	int getFinishTime() { return finishTime; }
-	int getProfit() { return profit; }
+	
+	int getStartTime() const { return startTime; }
+	int getFinishTime() const { return finishTime; }
+	int getProfit() const { return profit; }
 	void printFormattedInterval();
 };
 
