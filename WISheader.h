@@ -13,6 +13,10 @@ public:
 	void setStartTime(int start) { startTime = start; }
 	void setFinishTime(int finish) { finishTime = finish; }
 	void setProfit(int weight) { profit = weight; }
+	int getStartTime() { return startTime; }
+	int getFinishTime() { return finishTime; }
+	int getProfit() { return profit; }
+	void printFormattedInterval();
 };
 
 #endif

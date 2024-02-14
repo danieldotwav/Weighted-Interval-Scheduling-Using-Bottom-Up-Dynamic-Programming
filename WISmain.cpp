@@ -67,10 +67,18 @@ bool isValidWISParameters(int start, int finish, int profit) {
 void sortWISContainer(WIS* container, int intervals) {
 	for (int i = 0; i < intervals - 1; ++i) {
 		for (int j = 0; j < intervals - i - 1; ++j) {
-			// Swap the elements
-			WIS temp = container[j];
-			container[j] = container[j + 1];
-			container[j + 1] = temp;
+			if (container[j].getFinishTime() > container[j + 1].getFinishTime()) {
+				// Swap the elements
+				WIS temp = container[j];
+				container[j] = container[j + 1];
+				container[j + 1] = temp;
+			}
 		}
+	}
+}
+
+void printWISContainer(WIS* container, int intervals) {
+	for (int i = 0; i < intervals; ++i) {
+		container[i].printFormattedInterval();
 	}
 }
