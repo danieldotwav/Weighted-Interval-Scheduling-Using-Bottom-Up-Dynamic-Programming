@@ -10,6 +10,10 @@ private:
 public:
 	WIS();
 	WIS(int start, int finish, int w);
+	
+	void setStartTime(int start) { startTime = start; }
+	void setFinishTime(int finish) { finishTime = finish; }
+	void setWeight(int w) { weight = w; }
 };
 
 #endif
