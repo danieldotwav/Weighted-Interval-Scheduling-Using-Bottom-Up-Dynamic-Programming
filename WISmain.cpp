@@ -69,50 +69,7 @@ int main() {
 	cout << "\nSorted Input Intervals By Finishing Time:\n";
 	printFormattedInputIntervals(jobs);
 
-	/* First Attempt - MAIN ALGORITHM */
-
-	/*
-	// Initialize DP arrays
-	vector<int> dp(jobs.size());
-	vector<int> p(jobs.size()); // Stores the index of the previous non-conflicting job
-
-	// Base case
-	dp[0] = jobs[0].getProfit();
-	p[0] = -1; // No previous job for the first job
-
-	// Bottom-up calculation of DP values
-	for (int i = 1; i < jobs.size(); ++i) {
-		int inclProfit = jobs[i].getProfit();
-		int l = findLastNonConflictingJob(jobs, i);
-		if (l != -1) {
-			inclProfit += dp[l];
-		}
-		dp[i] = max(dp[i - 1], inclProfit);
-		p[i] = (dp[i] == inclProfit) ? l : p[i - 1];
-	}
-
-	// The maximum profit is in the last cell
-	cout << "\nMaximum profit of non-overlapping scheduling is " << dp[jobs.size() - 1] << endl;
-
-	// Reconstruct the solution
-	vector<WIS> optimalSet;
-	int i = jobs.size() - 1; // Start from the last job
-	while (i >= 0) {
-		// If the current job is part of the optimal solution
-		if (i == 0 || dp[i] != dp[i - 1]) {
-			optimalSet.push_back(jobs[i]);
-			i = p[i]; // Jump to the previous job included in the optimal solution
-		}
-		else {
-			i--; // Move to the previous job
-		}
-	}
-
-	// Reverse the optimalSet vector as we collected it in reverse
-	reverse(optimalSet.begin(), optimalSet.end());
-
-	*/
-
+	/* MAIN ALGORITHM */
 	vector<WIS> optimalSet = getOptimalSet(jobs);
 
 	// Display the schedules that comprise the maximum profit
@@ -121,7 +78,7 @@ int main() {
 		job.printFormattedInterval();
 	}
 
-	cout << "\nTerminating program...\n";
+	cout << "\n\nTerminating program...\n";
 	return 0;
 }
 
@@ -199,13 +156,18 @@ vector<WIS> getOptimalSet(const vector<WIS>& jobs) {
 		}
 	}
 
+	// Print the maximum profit to the user
+	cout << "\nMaximum profit of non-overlapping scheduling is " << maxProfitUpToJob[numJobs] << endl;
+
 	vector<WIS> optimalSolutionSet;
 	int currentIndex = numJobs;
+	cout << "Reconstructing the optimal set:" << endl;
 	while (currentIndex > 0) {
-		// If the current index is the same as the previous, it means the current job wasn't included
+		cout << "Current index: " << currentIndex << " | Solution at current index: " << solution[currentIndex] << endl;
 		if (solution[currentIndex] != solution[currentIndex - 1]) {
+			cout << "Adding job " << currentIndex - 1 << " to the optimal set." << endl;
 			optimalSolutionSet.push_back(jobs[currentIndex - 1]);
-			currentIndex = solution[currentIndex]; // Move to the last non-conflicting job
+			currentIndex = solution[currentIndex]; // Consider checking this assignment
 		}
 		else {
 			--currentIndex;
