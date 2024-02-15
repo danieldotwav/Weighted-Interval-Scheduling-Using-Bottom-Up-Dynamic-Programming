@@ -111,12 +111,15 @@ int main() {
 	// Reverse the optimalSet vector as we collected it in reverse
 	reverse(optimalSet.begin(), optimalSet.end());
 
+	*/
+
+	vector<WIS> optimalSet = getOptimalSet(jobs);
+
 	// Display the schedules that comprise the maximum profit
 	cout << "The jobs involved in the maximum profit are: ";
 	for (WIS job : optimalSet) {
 		job.printFormattedInterval();
 	}
-	*/
 
 	cout << "\nTerminating program...\n";
 	return 0;
@@ -172,7 +175,7 @@ vector<WIS> getOptimalSet(const vector<WIS>& jobs) {
 	int numJobs = jobs.size();
 
 	// Create a table to store solutions of subproblems
-	vector<int> maxProfitUpToJob(numJobs + 1, 0);
+	vector<int> maxProfitUpToJob(numJobs + 1, 0); // Use a 1-based index for the job list
 	vector<int> solution(numJobs + 1, -1); // Keep track of chosen jobs
 
 	// Initialize the table to 0 as a base condition
@@ -196,7 +199,23 @@ vector<WIS> getOptimalSet(const vector<WIS>& jobs) {
 		}
 	}
 
+	vector<WIS> optimalSolutionSet;
+	int currentIndex = numJobs;
+	while (currentIndex > 0) {
+		// If the current index is the same as the previous, it means the current job wasn't included
+		if (solution[currentIndex] != solution[currentIndex - 1]) {
+			optimalSolutionSet.push_back(jobs[currentIndex - 1]);
+			currentIndex = solution[currentIndex]; // Move to the last non-conflicting job
+		}
+		else {
+			--currentIndex;
+		}
+	}
 
+	// The solution is constructed in reverse, so we need to reverse it
+	reverse(optimalSolutionSet.begin(), optimalSolutionSet.end());
+
+	return optimalSolutionSet;
 }
 
 int findLastNonConflictingJob(const vector<WIS>& jobs, int index) {
