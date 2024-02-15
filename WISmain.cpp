@@ -10,9 +10,11 @@ const int JOB_DETAILS_WIDTH = 10;
 
 bool isValidWISParameters(int start, int finish, int profit);
 bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob);
-void printWISContainer(const vector<WIS> container);
 void printFormattedInputIntervals(const vector<WIS> container);
+
+vector<WIS> getOptimalSet(const vector<WIS>& jobs);
 int findLastNonConflictingJob(const vector<WIS>& jobs, int index);
+
 void purgeInputErrors(string errorMessage);
 
 int main() {
@@ -45,25 +47,31 @@ int main() {
 			purgeInputErrors("");
 			invalidEntryDetected = true;
 		}
-		else if (isValidWISParameters(start, finish, profit)) {
+		else {
 			// Then check for valid WIS record
-			jobs.emplace_back(start, finish, profit);
+			if (isValidWISParameters(start, finish, profit)) {
+				jobs.emplace_back(start, finish, profit);
+			}
+			else {
+				invalidEntryDetected = true;
+			}
 		}
 	}
 
 	if (invalidEntryDetected) {
-		cout << "\nPlease note that one or more entries were invalid and excluded from the data set\n";
+		cout << "\n*Please note that one or more entries were invalid and excluded from the data set\n";
 	}
 
-	// Sort by finish times
+	// Sort by finish time
 	sort(jobs.begin(), jobs.end(), compareByFinishTime);
 
 	// Display the results
 	cout << "\nSorted Input Intervals By Finishing Time:\n";
 	printFormattedInputIntervals(jobs);
 
-	/* First Attempt */
+	/* First Attempt - MAIN ALGORITHM */
 
+	/*
 	// Initialize DP arrays
 	vector<int> dp(jobs.size());
 	vector<int> p(jobs.size()); // Stores the index of the previous non-conflicting job
@@ -108,7 +116,9 @@ int main() {
 	for (WIS job : optimalSet) {
 		job.printFormattedInterval();
 	}
+	*/
 
+	cout << "\nTerminating program...\n";
 	return 0;
 }
 
@@ -141,16 +151,6 @@ bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob) {
 	return firstJob.getFinishTime() < secondJob.getFinishTime();
 }
 
-void printWISContainer(vector<WIS> container) {
-	if (!container.empty()) {
-		cout << "\nNo WIS Records To Process\n";
-	}
-	
-	for (WIS element : container) {
-		element.printFormattedInterval();
-	}
-}
-
 void printFormattedInputIntervals(const vector<WIS> container) {
 	cout << "\t" << left << setw(INDEX_WIDTH) <<
 		"Index<i>" << setw(JOB_DETAILS_WIDTH) <<
@@ -168,9 +168,40 @@ void printFormattedInputIntervals(const vector<WIS> container) {
 	}
 }
 
+vector<WIS> getOptimalSet(const vector<WIS>& jobs) {
+	int numJobs = jobs.size();
+
+	// Create a table to store solutions of subproblems
+	vector<int> maxProfitUpToJob(numJobs + 1, 0);
+	vector<int> solution(numJobs + 1, -1); // Keep track of chosen jobs
+
+	// Initialize the table to 0 as a base condition
+	maxProfitUpToJob[0] = 0;
+
+	// Fill the table using a bottom-up approach
+	for (int j = 1; j <= numJobs; ++j) {
+		// Find the last job that does not conflict with the current job
+		int lastNonConflicting = findLastNonConflictingJob(jobs, j - 1);
+		int includeProfit = jobs[j - 1].getProfit() +
+			(lastNonConflicting == -1 ? 0 : maxProfitUpToJob[lastNonConflicting + 1]);
+
+		// Check if the current job yields a better profit than not including it
+		if (includeProfit > maxProfitUpToJob[j - 1]) {
+			maxProfitUpToJob[j] = includeProfit;
+			solution[j] = lastNonConflicting + 1; // Store the index of the last non-conflicting job
+		}
+		else {
+			maxProfitUpToJob[j] = maxProfitUpToJob[j - 1];
+			solution[j] = solution[j - 1];
+		}
+	}
+
+
+}
+
 int findLastNonConflictingJob(const vector<WIS>& jobs, int index) {
 	// Iterate backwards through container to find the last non-conflicting job at the given index;
-	for (int i = index - 1; i > 0; --i) {
+	for (int i = index; i >= 0; --i) {
 		// We already ensured that the start and finish times are valid, so now we just check the edges of the intervals
 		if (jobs[i].getFinishTime() <= jobs[index].getStartTime()) {
 			return i;
