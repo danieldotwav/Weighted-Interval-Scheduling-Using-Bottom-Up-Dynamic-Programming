@@ -18,7 +18,7 @@ public:
 	int getStartTime() const { return startTime; }
 	int getFinishTime() const { return finishTime; }
 	int getProfit() const { return profit; }
-	void printFormattedInterval();
+	void printFormattedInterval() const;
 };
 
 #endif

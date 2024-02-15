@@ -1,7 +1,7 @@
 #include <iostream>
 #include "WISheader.h"
 
-void WIS::printFormattedInterval() {
+void WIS::printFormattedInterval() const {
 	std::cout << "(" << startTime << ", "
-		<< finishTime << ", " << profit << ")\n";
+		<< finishTime << ", " << profit << ") ";
 }
