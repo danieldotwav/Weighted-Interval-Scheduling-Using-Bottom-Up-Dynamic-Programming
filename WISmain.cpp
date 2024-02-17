@@ -8,21 +8,17 @@ using namespace std;
 const int INDEX_WIDTH = 15;
 const int JOB_DETAILS_WIDTH = 10;
 
-bool isValidWISParameters(int start, int finish, int profit);
-bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob);
-void printFormattedInputIntervals(const vector<WIS> container);
-
+// === Main Algorithm Functions ===
 vector<WIS> getOptimalSet(const vector<WIS>& jobs);
 int findLastNonConflictingJob(const vector<WIS>& jobs, int index);
+bool isValidWISParameters(int start, int finish, int profit);
+bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob);
 
+// === Utility Functions ===
+void printFormattedInputIntervals(const vector<WIS> container);
 void purgeInputErrors(string errorMessage);
 
 int main() {
-	// You are given a list of jobs to complete and you only have one machine.
-	// Each job has start time(S), finish time(F) and a weight(W).Some sets of intervals overlap and some sets do not.
-	// The goal is to find the maximum profit subset of mutually compatible jobs*. In this problem, we must focus on maximum profit.
-	// *Compatible jobs are jobs that don’t overlap.
-
 	cout << "++++ Weighted Interval Sceduling with Bottom up dynamic programming ++++\n";
 
 	int intervals;
@@ -69,7 +65,7 @@ int main() {
 	cout << "\nSorted Input Intervals By Finishing Time:\n";
 	printFormattedInputIntervals(jobs);
 
-	/* First Attempt - MAIN ALGORITHM */
+	/* MAIN ALGORITHM */
 	vector<WIS> optimalSet = getOptimalSet(jobs);
 
 	// Display the schedules that comprise the maximum profit
@@ -82,41 +78,7 @@ int main() {
 	return 0;
 }
 
-// Validates record data and returns the state of the values as a boolean
-bool isValidWISParameters(int start, int finish, int profit) {
-	bool isValid = false;
-	// First check for negative numbers
-	if (start > 0 && finish > 0 && profit > 0) {
-		// Then check for compatible time window
-		if (start < finish) {
-			isValid = true;
-		}
-	}
-
-	return isValid;
-}
-
-// Sorting logic for the std::sort method
-bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob) {
-	return firstJob.getFinishTime() < secondJob.getFinishTime();
-}
-
-void printFormattedInputIntervals(const vector<WIS> container) {
-	cout << "\t" << left << setw(INDEX_WIDTH) <<
-		"Index<i>" << setw(JOB_DETAILS_WIDTH) <<
-		"S<i>" << setw(JOB_DETAILS_WIDTH) << 
-		"F<i>" << setw(JOB_DETAILS_WIDTH) <<
-		"W<i>\n";
-
-	int numWISRecords = container.size();
-	for (int i = 0; i < numWISRecords; ++i) {
-		cout << "\t" <<
-			setw(INDEX_WIDTH) << i + 1 <<
-			setw(JOB_DETAILS_WIDTH) << container[i].getStartTime() <<
-			setw(JOB_DETAILS_WIDTH) << container[i].getFinishTime() <<
-			setw(JOB_DETAILS_WIDTH) << container[i].getProfit() << endl;
-	}
-}
+// === Main Algorithm Functions ===
 
 vector<WIS> getOptimalSet(const vector<WIS>& jobs) {
 	int numJobs = jobs.size();
@@ -173,9 +135,116 @@ int findLastNonConflictingJob(const vector<WIS>& jobs, int index) {
 	return -1; // No non-conflicting job found
 }
 
+// Validates record data and returns the state of the values as a boolean
+bool isValidWISParameters(int start, int finish, int profit) {
+	bool isValid = false;
+	// First check for negative numbers
+	if (start > 0 && finish > 0 && profit > 0) {
+		// Then check for compatible time window
+		if (start < finish) {
+			isValid = true;
+		}
+	}
+
+	return isValid;
+}
+
+// Sorting logic for the std::sort method
+bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob) {
+	return firstJob.getFinishTime() < secondJob.getFinishTime();
+}
+
+// === Utility Functions ===
+
+void printFormattedInputIntervals(const vector<WIS> container) {
+	cout << "\t" << left << setw(INDEX_WIDTH) <<
+		"Index<i>" << setw(JOB_DETAILS_WIDTH) <<
+		"S<i>" << setw(JOB_DETAILS_WIDTH) <<
+		"F<i>" << setw(JOB_DETAILS_WIDTH) <<
+		"W<i>\n";
+
+	int numWISRecords = container.size();
+	for (int i = 0; i < numWISRecords; ++i) {
+		cout << "\t" <<
+			setw(INDEX_WIDTH) << i + 1 <<
+			setw(JOB_DETAILS_WIDTH) << container[i].getStartTime() <<
+			setw(JOB_DETAILS_WIDTH) << container[i].getFinishTime() <<
+			setw(JOB_DETAILS_WIDTH) << container[i].getProfit() << endl;
+	}
+}
+
 // Resets cin object to a useable state after an input error
 void purgeInputErrors(string errorMessage) {
 	cin.clear();
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cout << errorMessage;
 }
+
+/* === Test Cases ===
+
+Case 1:
+6 Intervals
+1 3 5
+2 5 6
+4 6 5
+6 7 4
+5 8 11
+7 9 2
+
+Expected Optimal Job Set: {(1, 3, 5), (4, 6, 5), (6, 7, 4), (7, 9, 2)}
+Expected Maximum Profit: 16
+
+
+Case 2:
+4 Intervals
+1 2 50
+3 5 20
+6 19 100
+2 100 200
+
+Expected Optimal Job Set: {(1, 2, 50), (3, 5, 20), (6, 19, 100)}
+Expected Maximum Profit: 170
+
+
+Case 3:
+7 Intervals
+1 4 3
+3 5 2
+0 6 9
+4 7 7
+3 8 4
+5 9 4
+6 10 10
+
+Expected Optimal Job Set: {(0, 6, 9), (6, 10, 10)}
+Expected Maximum Profit: 19
+
+
+Case 4:
+8 Intervals
+6 8 2
+5 7 1
+8 11 4
+3 5 1
+4 7 1
+0 3 5
+1 4 2
+7 9 3
+
+Expected Optimal Job Set: {(0, 3, 5), (3, 5, 1), (5, 7, 1), (7, 9, 3), (8, 11, 4)}
+Expected Maximum Profit: 14
+
+
+Case 5:
+6 Intervals
+5 7 7
+7 8 2
+8 9 1
+9 11 2
+11 14 3
+13 16 2
+
+Expected Optimal Job Set: {(5, 7, 7), (7, 8, 2), (8, 9, 1), (9, 11, 2), (11, 14, 3), (13, 16, 2)}
+Expected Maximum Profit: 17
+
+*/
