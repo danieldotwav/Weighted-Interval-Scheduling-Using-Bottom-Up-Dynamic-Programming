@@ -21,7 +21,7 @@ int main() {
 	// You are given a list of jobs to complete and you only have one machine.
 	// Each job has start time(S), finish time(F) and a weight(W).Some sets of intervals overlap and some sets do not.
 	// The goal is to find the maximum profit subset of mutually compatible jobs*. In this problem, we must focus on maximum profit.
-	// * Compatible jobs are jobs that don’t overlap.
+	// *Compatible jobs are jobs that don’t overlap.
 
 	cout << "++++ Weighted Interval Sceduling with Bottom up dynamic programming ++++\n";
 
@@ -33,7 +33,7 @@ int main() {
 		purgeInputErrors("\nError: Invalid Input\nPlease enter a positive integer for the number of intervals: ");
 	}
 
-	// Create a container to store WIS 
+	// Create a container to store the jobs
 	vector<WIS> jobs;
 
 	// Populate WIS container
@@ -73,7 +73,7 @@ int main() {
 	vector<WIS> optimalSet = getOptimalSet(jobs);
 
 	// Display the schedules that comprise the maximum profit
-	cout << "The jobs involved in the maximum profit are: ";
+	cout << "\nThe jobs involved in the maximum profit are: ";
 	for (WIS job : optimalSet) {
 		job.printFormattedInterval();
 	}
@@ -123,7 +123,7 @@ vector<WIS> getOptimalSet(const vector<WIS>& jobs) {
 
 	// Create a table to store solutions of subproblems
 	vector<int> maxProfitUpToJob(numJobs + 1, 0); // Use a 1-based index for the job list
-	vector<vector<WIS>> jobList(numJobs + 1); // Vector of vectors to keep track of selected jobs
+	vector<vector<WIS>> jobList(numJobs + 1); // Keep track of selected jobs
 
 	// Initialize the base condition
 	maxProfitUpToJob[0] = 0; // No profit with 0 jobs
@@ -149,8 +149,17 @@ vector<WIS> getOptimalSet(const vector<WIS>& jobs) {
 		}
 	}
 
+	// Calculate and display the maximum profit to the user
+	vector<WIS> optimalSet = jobList[numJobs];
+	int maxProfit = 0;
+	for (WIS element : optimalSet) {
+		maxProfit += element.getProfit();
+	}
+
+	cout << "\nMaximum profit of non-overlapping scheduling is " << maxProfit;
+
 	// The last element in jobList now contains the set of jobs that contribute to the maximum profit
-	return jobList[numJobs];
+	return optimalSet;
 }
 
 int findLastNonConflictingJob(const vector<WIS>& jobs, int index) {
