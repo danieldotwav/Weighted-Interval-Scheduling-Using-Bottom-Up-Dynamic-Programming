@@ -91,17 +91,7 @@ bool isValidWISParameters(int start, int finish, int profit) {
 		if (start < finish) {
 			isValid = true;
 		}
-		/*
-		else {
-			cout << "\nError: Invalid Interval\nStart Time Must Be Less Than Finish Time *Entry Discarded*\n";
-		}
-		*/
 	}
-	/*
-	else {
-		cout << "\nError: Start Time, Finish Time, AND Weight Must Be Values Greater Than 0 *Entry Discarded*\n";
-	}
-	*/
 
 	return isValid;
 }
