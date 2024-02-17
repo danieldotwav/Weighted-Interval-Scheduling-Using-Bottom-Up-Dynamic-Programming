@@ -69,7 +69,7 @@ int main() {
 	cout << "\nSorted Input Intervals By Finishing Time:\n";
 	printFormattedInputIntervals(jobs);
 
-	/* MAIN ALGORITHM */
+	/* First Attempt - MAIN ALGORITHM */
 	vector<WIS> optimalSet = getOptimalSet(jobs);
 
 	// Display the schedules that comprise the maximum profit
@@ -78,7 +78,7 @@ int main() {
 		job.printFormattedInterval();
 	}
 
-	cout << "\n\nTerminating program...\n";
+	cout << "\nTerminating program...\n";
 	return 0;
 }
 
@@ -161,13 +161,11 @@ vector<WIS> getOptimalSet(const vector<WIS>& jobs) {
 
 	vector<WIS> optimalSolutionSet;
 	int currentIndex = numJobs;
-	cout << "Reconstructing the optimal set:" << endl;
 	while (currentIndex > 0) {
-		cout << "Current index: " << currentIndex << " | Solution at current index: " << solution[currentIndex] << endl;
+		// If the current index is the same as the previous, it means the current job wasn't included
 		if (solution[currentIndex] != solution[currentIndex - 1]) {
-			cout << "Adding job " << currentIndex - 1 << " to the optimal set." << endl;
 			optimalSolutionSet.push_back(jobs[currentIndex - 1]);
-			currentIndex = solution[currentIndex]; // Consider checking this assignment
+			currentIndex = solution[currentIndex]; // Move to the last non-conflicting job
 		}
 		else {
 			--currentIndex;
