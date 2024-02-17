@@ -191,8 +191,8 @@ Case 1:
 5 8 11
 7 9 2
 
-Expected Optimal Job Set: {(1, 3, 5), (4, 6, 5), (6, 7, 4), (7, 9, 2)}
-Expected Maximum Profit: 16
+Expected Optimal Job Set: {(2, 5, 6) (5, 8, 11)}
+Expected Maximum Profit: 17
 
 
 Case 2:
@@ -200,10 +200,10 @@ Case 2:
 1 2 50
 3 5 20
 6 19 100
-2 100 200
+2 10 200
 
-Expected Optimal Job Set: {(1, 2, 50), (3, 5, 20), (6, 19, 100)}
-Expected Maximum Profit: 170
+Expected Optimal Job Set: {(1, 2, 50) (2, 10, 200)}
+Expected Maximum Profit: 250
 
 
 Case 3:
@@ -216,8 +216,8 @@ Case 3:
 5 9 4
 6 10 10
 
-Expected Optimal Job Set: {(0, 6, 9), (6, 10, 10)}
-Expected Maximum Profit: 19
+Expected Optimal Job Set: {(1, 4, 3) (6, 10, 10)}
+Expected Maximum Profit: 13
 
 
 Case 4:
@@ -231,8 +231,8 @@ Case 4:
 1 4 2
 7 9 3
 
-Expected Optimal Job Set: {(0, 3, 5), (3, 5, 1), (5, 7, 1), (7, 9, 3), (8, 11, 4)}
-Expected Maximum Profit: 14
+Expected Optimal Job Set: {(1, 4, 2) (6, 8, 2) (8, 11, 4)}
+Expected Maximum Profit: 8
 
 
 Case 5:
@@ -241,10 +241,24 @@ Case 5:
 7 8 2
 8 9 1
 9 11 2
-11 14 3
-13 16 2
+11 12 3
+4 8 2
 
-Expected Optimal Job Set: {(5, 7, 7), (7, 8, 2), (8, 9, 1), (9, 11, 2), (11, 14, 3), (13, 16, 2)}
-Expected Maximum Profit: 17
+Expected Optimal Job Set: {(5, 7, 7) (7, 8, 2) (8, 9, 1) (9, 11, 2) (11, 12, 3)}
+Expected Maximum Profit: 15
+
+
+Case 6:
+7 Intervals
+4 7 4
+7 4 2
+x 9 1
+9 11 2
+1 3 3
+8 1 9
+2 4 6
+
+Expected Optimal Job Set: {(2, 4, 6) (4, 7, 4) (9, 11, 2)}
+Expected Maximum Profit: 12
 
 */
