@@ -123,10 +123,10 @@ vector<WIS> getOptimalSet(const vector<WIS>& jobs) {
 
 	// Create a table to store solutions of subproblems
 	vector<int> maxProfitUpToJob(numJobs + 1, 0); // Use a 1-based index for the job list
-	vector<int> solution(numJobs + 1, -1); // Keep track of chosen jobs
+	vector<vector<WIS>> jobList(numJobs + 1); // Vector of vectors to keep track of selected jobs
 
-	// Initialize the table to 0 as a base condition
-	maxProfitUpToJob[0] = 0;
+	// Initialize the base condition
+	maxProfitUpToJob[0] = 0; // No profit with 0 jobs
 
 	// Fill the table using a bottom-up approach
 	for (int j = 1; j <= numJobs; ++j) {
@@ -135,37 +135,22 @@ vector<WIS> getOptimalSet(const vector<WIS>& jobs) {
 		int includeProfit = jobs[j - 1].getProfit() +
 			(lastNonConflicting == -1 ? 0 : maxProfitUpToJob[lastNonConflicting + 1]);
 
-		// Check if the current job yields a better profit than not including it
+		// Check if including the current job yields a better profit than excluding it
 		if (includeProfit > maxProfitUpToJob[j - 1]) {
 			maxProfitUpToJob[j] = includeProfit;
-			solution[j] = lastNonConflicting + 1; // Store the index of the last non-conflicting job
+			if (lastNonConflicting != -1) {
+				jobList[j] = jobList[lastNonConflicting + 1]; // Include all previous non-conflicting jobs
+			}
+			jobList[j].push_back(jobs[j - 1]); // Include this job
 		}
 		else {
 			maxProfitUpToJob[j] = maxProfitUpToJob[j - 1];
-			solution[j] = solution[j - 1];
+			jobList[j] = jobList[j - 1]; // Carry forward the previous job list
 		}
 	}
 
-	// Print the maximum profit to the user
-	cout << "\nMaximum profit of non-overlapping scheduling is " << maxProfitUpToJob[numJobs] << endl;
-
-	vector<WIS> optimalSolutionSet;
-	int currentIndex = numJobs;
-	while (currentIndex > 0) {
-		// If the current index is the same as the previous, it means the current job wasn't included
-		if (solution[currentIndex] != solution[currentIndex - 1]) {
-			optimalSolutionSet.push_back(jobs[currentIndex - 1]);
-			currentIndex = solution[currentIndex]; // Move to the last non-conflicting job
-		}
-		else {
-			--currentIndex;
-		}
-	}
-
-	// The solution is constructed in reverse, so we need to reverse it
-	reverse(optimalSolutionSet.begin(), optimalSolutionSet.end());
-
-	return optimalSolutionSet;
+	// The last element in jobList now contains the set of jobs that contribute to the maximum profit
+	return jobList[numJobs];
 }
 
 int findLastNonConflictingJob(const vector<WIS>& jobs, int index) {
