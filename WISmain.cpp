@@ -263,9 +263,19 @@ Expected Maximum Profit: 12
 
 
 Case 7:
-0 Intervals
+1 Intervals
+0 0 0
 
 Expected Optimal Job Set: {}
 Expected Maximum Profit: 0
 
+
+Case 8:
+3 Intervals
+1 2 3
+1 2 3
+1 2 3
+
+Expected Optimal Job Set: {(1, 2, 3)}
+Expected Maximum Profit: 3
 */
