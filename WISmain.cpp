@@ -261,4 +261,11 @@ x 9 1
 Expected Optimal Job Set: {(2, 4, 6) (4, 7, 4) (9, 11, 2)}
 Expected Maximum Profit: 12
 
+
+Case 7:
+0 Intervals
+
+Expected Optimal Job Set: {}
+Expected Maximum Profit: 0
+
 */
