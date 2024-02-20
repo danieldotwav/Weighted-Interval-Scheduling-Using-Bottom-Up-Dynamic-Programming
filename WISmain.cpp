@@ -1,11 +1,13 @@
-// This program implements the Weighted Interval Scheduling algorithm using a 
-// bottom - up dynamic programming approach.The program is designed to find the 
-// optimal set of non - overlapping jobs(intervals) that maximizes the total profit, 
-// where each job has a start time, finish time, and profit(weight).
+/*
+
+
+Program Summary: This program implements the Weighted Interval Scheduling algorithm using a bottom-up dynamic programming approach. The program is designed to find the optimal set of non - overlapping jobs (intervals) that maximizes the total profit, where each job has a start time, finish time, and profit (weight).
+
+*/
 
 
 #include "WISheader.h"; // Contains WIS class definition/implementation
-#include "WISalgorithm.h"; // Contains the 
+#include "WISalgorithm.h"; // Contains implementation of the main algorithm and utility functions
 #include <algorithm>
 using namespace std;
 
@@ -21,12 +23,13 @@ int main() {
 		purgeInputErrors("\nError: Invalid Input\nPlease enter a positive integer for the number of intervals: ");
 	}
 
-	// Create a container to store the jobs
+	// Create a container to store jobs
 	vector<WIS> jobs;
 
 	// Populate WIS container
 	cout << "\nEnter Start time, Finish time, and Weight separated by a space:\nSi Fi Wi\n";
 
+	// User populates each job
 	int start, finish, profit;
 	bool invalidEntryDetected = false;
 	for (int i = 0; i < intervals; ++i) {
@@ -62,11 +65,9 @@ int main() {
 
 	// Display the schedules that comprise the maximum profit
 	cout << "\nThe jobs involved in the maximum profit are: ";
-	for (WIS job : optimalSet) {
-		job.printFormattedInterval();
-	}
+	printOptimalSet(optimalSet);
 
-	cout << "\nTerminating program...\n";
+	cout << "\n\nTerminating program...\n";
 	return 0;
 }
 

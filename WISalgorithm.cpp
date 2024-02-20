@@ -7,6 +7,7 @@ const int JOB_DETAILS_WIDTH = 10;
 
 // === Main Algorithm Functions ===
 
+// Takes in a vector of WIS objects and returns a vector of non-conflicting jobs with the greatest profit
 std::vector<WIS> getOptimalSet(const std::vector<WIS>& jobs) {
 	int numJobs = jobs.size();
 
@@ -45,7 +46,7 @@ std::vector<WIS> getOptimalSet(const std::vector<WIS>& jobs) {
 		maxProfit += element.getProfit();
 	}
 
-	std::cout << "\nMaximum profit of non-overlapping scheduling is " << maxProfit;
+	std::cout << "\nMaximum profit of non-overlapping scheduling is " << maxProfit << std::endl;
 
 	// The last element in jobList now contains the set of jobs that contribute to the maximum profit
 	return optimalSet;
@@ -83,7 +84,7 @@ bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob) {
 
 // === Utility Functions ===
 
-void printFormattedInputIntervals(const std::vector<WIS> container) {
+void printFormattedInputIntervals(const std::vector<WIS>& container) {
 	std::cout << "\t" << std::left << std::setw(INDEX_WIDTH) <<
 		"Index<i>" << std::setw(JOB_DETAILS_WIDTH) <<
 		"S<i>" << std::setw(JOB_DETAILS_WIDTH) <<
@@ -97,6 +98,12 @@ void printFormattedInputIntervals(const std::vector<WIS> container) {
 			std::setw(JOB_DETAILS_WIDTH) << container[i].getStartTime() <<
 			std::setw(JOB_DETAILS_WIDTH) << container[i].getFinishTime() <<
 			std::setw(JOB_DETAILS_WIDTH) << container[i].getProfit() << std::endl;
+	}
+}
+
+void printOptimalSet(const std::vector<WIS>& container) {
+	for (WIS job : container) {
+		job.printFormattedInterval();
 	}
 }
 
