@@ -150,10 +150,7 @@ void printFormattedInputIntervals(const std::vector<WIS>& container) {
 
 void printOptimalSet(const std::vector<WIS>& container) {
 	int length = container.size();
-	if (length == 0) { 
-		std::cout << "\nEmpty Dataset\n"; 
-	}
-	else {
+	if (length > 0) {
 		container[0].printFormattedJob();
 		for (int i = 1; i < length; ++i) {
 			std::cout << ", ";
