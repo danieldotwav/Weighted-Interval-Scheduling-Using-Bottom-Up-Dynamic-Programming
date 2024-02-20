@@ -1,14 +1,9 @@
 /*
-
-
 Program Summary: This program implements the Weighted Interval Scheduling algorithm using a bottom-up dynamic programming approach. The program is designed to find the optimal set of non - overlapping jobs (intervals) that maximizes the total profit, where each job has a start time, finish time, and profit (weight).
-
 */
-
 
 #include "WISheader.h"; // Contains WIS class definition/implementation
 #include "WISalgorithm.h"; // Contains implementation of the main algorithm and utility functions
-#include <algorithm>
 using namespace std;
 
 
@@ -18,38 +13,8 @@ int main() {
 	// Get number of intervals to process from user
 	int intervals = promptUserForNumIntervals();
 	
-	// Create a container to store jobs
-	vector<WIS> jobs;
-
-	// Populate WIS container
-	cout << "\nEnter Start time, Finish time, and Weight separated by a space:\nSi Fi Wi\n";
-
-	// User populates each job
-	int start, finish, profit;
-	bool invalidEntryDetected = false;
-	for (int i = 0; i < intervals; ++i) {
-		// First check for valid input type
-		if (!(cin >> start) || !(cin >> finish) || !(cin >> profit)) {
-			purgeInputErrors("");
-			invalidEntryDetected = true;
-		}
-		else {
-			// Then check for valid WIS record
-			if (isValidWISParameters(start, finish, profit)) {
-				jobs.emplace_back(start, finish, profit);
-			}
-			else {
-				invalidEntryDetected = true;
-			}
-		}
-	}
-
-	if (invalidEntryDetected) {
-		cout << "\n*Please note that one or more entries were invalid and excluded from the data set\n";
-	}
-
-	// Sort by finish time
-	sort(jobs.begin(), jobs.end(), compareByFinishTime);
+	// Create and populate container to store jobs
+	vector<WIS> jobs = generateWISVectorFromUserInput(intervals);
 
 	// Display the results
 	cout << "\nSorted Input Intervals By Finishing Time:\n";

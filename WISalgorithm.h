@@ -12,6 +12,7 @@ bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob);
 
 // === Utility Functions ===
 int promptUserForNumIntervals();
+std::vector<WIS> generateWISVectorFromUserInput(int intervals);
 void printFormattedInputIntervals(const std::vector<WIS>& container);
 void printOptimalSet(const std::vector<WIS>& container);
 void purgeInputErrors(std::string errorMessage);

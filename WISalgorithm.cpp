@@ -1,5 +1,6 @@
 #include "WISheader.h";
 #include "WISalgorithm.h";
+#include <algorithm>
 #include <iomanip>
 
 const int INDEX_WIDTH = 15;
@@ -92,6 +93,42 @@ int promptUserForNumIntervals() {
 		purgeInputErrors("\nError: Invalid Input\nPlease enter a positive integer for the number of intervals: ");
 	}
 	return intervals;
+}
+
+// Prompts user for schedule information and generates a vector of WIS objects using validated user input. Returns a vector of WIS objects, sorted by finish time
+std::vector<WIS> generateWISVectorFromUserInput(int intervals) {
+	std::vector<WIS> jobs;
+	
+	std::cout << "\nEnter Start time, Finish time, and Weight separated by a space:\nSi Fi Wi\n";
+
+	// User populates each job
+	int start, finish, profit;
+	bool invalidEntryDetected = false;
+	for (int i = 0; i < intervals; ++i) {
+		// First check for valid input type
+		if (!(std::cin >> start) || !(std::cin >> finish) || !(std::cin >> profit)) {
+			purgeInputErrors("");
+			invalidEntryDetected = true;
+		}
+		else {
+			// Then check for valid WIS record
+			if (isValidWISParameters(start, finish, profit)) {
+				jobs.emplace_back(start, finish, profit);
+			}
+			else {
+				invalidEntryDetected = true;
+			}
+		}
+	}
+
+	if (invalidEntryDetected) {
+		std::cout << "\n*Please note that one or more entries were invalid and excluded from the data set\n";
+	}
+
+	// Sort by finish time
+	std::sort(jobs.begin(), jobs.end(), compareByFinishTime);
+
+	return jobs;
 }
 
 void printFormattedInputIntervals(const std::vector<WIS>& container) {
