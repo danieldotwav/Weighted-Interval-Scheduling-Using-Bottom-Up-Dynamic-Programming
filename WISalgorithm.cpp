@@ -73,7 +73,6 @@ bool isValidWISParameters(int start, int finish, int profit) {
 			isValid = true;
 		}
 	}
-
 	return isValid;
 }
 
@@ -92,6 +91,7 @@ int promptUserForNumIntervals() {
 	while (!(std::cin >> intervals) || intervals <= 0) {
 		purgeInputErrors("\nError: Invalid Input\nPlease enter a positive integer for the number of intervals: ");
 	}
+	return intervals;
 }
 
 void printFormattedInputIntervals(const std::vector<WIS>& container) {
