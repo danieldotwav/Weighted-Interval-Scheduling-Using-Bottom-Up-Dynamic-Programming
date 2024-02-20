@@ -15,14 +15,9 @@ using namespace std;
 int main() {
 	cout << "++++ Weighted Interval Sceduling with Bottom up dynamic programming ++++\n";
 
-	int intervals;
-	cout << "Enter number of Intervals: ";
-
-	// Handle input errors
-	while (!(cin >> intervals) || intervals <= 0) {
-		purgeInputErrors("\nError: Invalid Input\nPlease enter a positive integer for the number of intervals: ");
-	}
-
+	// Get number of intervals to process from user
+	int intervals = promptUserForNumIntervals();
+	
 	// Create a container to store jobs
 	vector<WIS> jobs;
 

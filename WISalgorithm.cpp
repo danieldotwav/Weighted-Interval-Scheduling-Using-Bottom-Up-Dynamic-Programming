@@ -84,6 +84,16 @@ bool compareByFinishTime(const WIS& firstJob, const WIS& secondJob) {
 
 // === Utility Functions ===
 
+int promptUserForNumIntervals() {
+	int intervals;
+	std::cout << "Enter number of Intervals: ";
+
+	// Handle input errors
+	while (!(std::cin >> intervals) || intervals <= 0) {
+		purgeInputErrors("\nError: Invalid Input\nPlease enter a positive integer for the number of intervals: ");
+	}
+}
+
 void printFormattedInputIntervals(const std::vector<WIS>& container) {
 	std::cout << "\t" << std::left << std::setw(INDEX_WIDTH) <<
 		"Index<i>" << std::setw(JOB_DETAILS_WIDTH) <<
