@@ -18,12 +18,15 @@
     <ClCompile Include="WISmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WISimplementation.cpp">
+    <ClCompile Include="WISalgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WISheader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WISalgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

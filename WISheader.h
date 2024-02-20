@@ -1,5 +1,9 @@
+// This file contains the definition/implementation of the WIS class
+
 #ifndef WISHEADER_H
 #define WISHEADER_H
+
+#include <iostream>
 
 class WIS {
 private:
@@ -18,7 +22,10 @@ public:
 	int getStartTime() const { return startTime; }
 	int getFinishTime() const { return finishTime; }
 	int getProfit() const { return profit; }
-	void printFormattedInterval() const;
+	void printFormattedInterval() const {
+		std::cout << "(" << startTime << ", "
+			<< finishTime << ", " << profit << ") ";
+	}
 };
 
 #endif

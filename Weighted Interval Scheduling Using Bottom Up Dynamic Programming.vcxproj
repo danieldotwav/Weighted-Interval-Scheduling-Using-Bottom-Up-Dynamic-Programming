@@ -127,10 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="WISimplementation.cpp" />
+    <ClCompile Include="WISalgorithm.cpp" />
     <ClCompile Include="WISmain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="WISalgorithm.h" />
     <ClInclude Include="WISheader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
