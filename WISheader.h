@@ -22,9 +22,9 @@ public:
 	int getStartTime() const { return startTime; }
 	int getFinishTime() const { return finishTime; }
 	int getProfit() const { return profit; }
-	void printFormattedInterval() const {
+	void printFormattedJob() const {
 		std::cout << "(" << startTime << ", "
-			<< finishTime << ", " << profit << ") ";
+			<< finishTime << ", " << profit << ")";
 	}
 };
 
