@@ -1,6 +1,4 @@
-/*
-Program Summary: This program implements the Weighted Interval Scheduling algorithm using a bottom-up dynamic programming approach. The program is designed to find the optimal set of non-overlapping jobs (intervals) that maximizes the total profit, where each job has a start time, finish time, and profit (weight).
-*/
+// Program Summary: This program implements the Weighted Interval Scheduling algorithm using a bottom-up dynamic programming approach. The program is designed to find the optimal set of non-overlapping jobs (intervals) that maximizes the total profit, where each job has a start time, finish time, and profit (weight).
 
 #include "WISheader.h"; // Contains WIS class definition/implementation
 #include "WISalgorithm.h"; // Contains implementation of the main algorithm and utility functions
@@ -129,4 +127,11 @@ Case 8:
 
 Expected Optimal Job Set: {(1, 2, 3)}
 Expected Maximum Profit: 3
+
+Case 9:
+3 Intervals
+1 2 4
+1 2 8
+1 2 4
+
 */
